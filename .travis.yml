@@ -1,0 +1,9 @@
+language: java
+jdk:
+  - oraclejdk7
+notifications:
+  email:
+    recipients:
+      - adolfoecs@gmail.com
+after_success:
+  - ./gradlew uploadArchives

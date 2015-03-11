@@ -1,5 +1,7 @@
 #Spring Mvc Utils
 
+[![Build Status](https://travis-ci.org/caelwinner/spring-mvc-utils.svg?branch=master)](https://travis-ci.org/caelwinner/spring-mvc-utils)
+
 Classes to help the development of your REST API.
 
 ##How to use it
