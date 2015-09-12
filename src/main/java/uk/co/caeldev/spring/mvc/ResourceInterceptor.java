@@ -59,7 +59,7 @@ public abstract class ResourceInterceptor extends HandlerInterceptorAdapter {
                 response.setHeader(ETAG, token);
                 response.setHeader(LAST_MODIFIED, now().toString());
                 break;
-            case POST:
+            case PUT:
                 final Optional<String> previousToken = Optional.fromNullable(request.getHeader(IF_MATCH));
 
                 if (!previousToken.isPresent()) {
