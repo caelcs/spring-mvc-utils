@@ -63,7 +63,7 @@ bootRepackage {
 }
 
 gradle.taskGraph.whenReady { graph ->
-    def badTasks = ['findMainClass', 'startScripts', 'distTar', 'distZip']
+    def badTasks = ['findMainClass', 'startScripts']
     graph.allTasks.findAll {it.name in badTasks}.each { task ->
         task.enabled = false
     }
