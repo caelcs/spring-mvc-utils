@@ -28,11 +28,16 @@ public abstract class ResourceInterceptor extends HandlerInterceptorAdapter {
     protected abstract String getUUIDVariableName();
 
     protected Optional<String> resolveHashCode(final HttpServletRequest request) {
-        final String uuid = getUUIDFromURI(request, getUUIDVariableName());
-        LOGGER.info("Resolved UUID from URL: {}", uuid);
+        final Optional<String> uuid = getUUIDFromURI(request, getUUIDVariableName());
+
+        if (!uuid.isPresent()) {
+            return Optional.absent();
+        }
+
+        LOGGER.info("Resolved UUID from URL: {}", uuid.get());
 
         try {
-            return Optional.of(entityHashCodeByUUID(uuid));
+            return Optional.of(entityHashCodeByUUID(uuid.get()));
         } catch(final IllegalArgumentException e) {
             LOGGER.info("Entity HashCode not Found");
             return Optional.absent();
@@ -77,11 +82,11 @@ public abstract class ResourceInterceptor extends HandlerInterceptorAdapter {
         return super.preHandle(request, response, handler);
     }
 
-    protected String getUUIDFromURI(final HttpServletRequest request, final String variableNameUUID) {
+    protected Optional<String> getUUIDFromURI(final HttpServletRequest request, final String variableNameUUID) {
         LOGGER.info("Get UUID from URI");
         final UrlPathHelper urlPathHelper = new UrlPathHelper();
         final Map<String, String> pathVariables = (Map<String, String>)request.getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         final Map<String, String> decodedPathVariables = urlPathHelper.decodePathVariables(request, pathVariables);
-        return decodedPathVariables.get(variableNameUUID);
+        return Optional.fromNullable(decodedPathVariables.get(variableNameUUID));
     }
 }
