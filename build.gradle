@@ -62,6 +62,13 @@ bootRepackage {
     enabled = false
 }
 
+gradle.taskGraph.whenReady { graph ->
+    def badTasks = ['findMainClass', 'startScripts', 'distTar', 'distZip']
+    graph.allTasks.findAll {it.name in badTasks}.each { task ->
+        task.enabled = false
+    }
+}
+
 artifacts {
     archives jar
     archives javadocJar
