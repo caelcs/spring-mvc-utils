@@ -1,11 +1,10 @@
 package uk.co.caeldev.spring.mvc;
 
-import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class ResponseEntityBuilder<T extends ResourceSupport> {
+public class ResponseEntityBuilder<T> {
 
     private HttpStatus statusCode;
     private T resource;
@@ -14,7 +13,7 @@ public class ResponseEntityBuilder<T extends ResourceSupport> {
     ResponseEntityBuilder() {
     }
 
-    public static <V extends ResourceSupport> ResponseEntityBuilder<V> responseEntityBuilder() {
+    public static <T> ResponseEntityBuilder<T> responseEntityBuilder() {
         return new ResponseEntityBuilder<>();
     }
 
