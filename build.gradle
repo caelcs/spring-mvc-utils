@@ -26,6 +26,11 @@ buildscript {
 }
 
 scmVersion {
+    repository {
+        customKey = "${System.env.gitUsername}"
+        customKeyPassword = "${System.env.gitPassword}"
+    }
+
     tag {
         prefix = 'RELEASE'
     }
