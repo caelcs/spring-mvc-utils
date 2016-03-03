@@ -1,6 +1,8 @@
 package uk.co.caeldev.spring.mvc;
 
 import com.google.common.base.Optional;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -11,17 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-import static uk.co.caeldev.spring.mvc.ETagBuilder.eTagBuilder;
 import static com.google.common.net.HttpHeaders.*;
-import static org.joda.time.LocalTime.now;
+import static org.joda.time.DateTime.now;
 import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
 import static org.springframework.http.HttpStatus.PRECONDITION_REQUIRED;
 import static org.springframework.web.servlet.HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE;
+import static uk.co.caeldev.spring.mvc.ETagBuilder.eTagBuilder;
 
 
 public abstract class ResourceInterceptor extends HandlerInterceptorAdapter {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ResourceInterceptor.class);
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss zzz");
 
     protected abstract String entityHashCodeByUUID(String uuid);
 
@@ -62,7 +66,7 @@ public abstract class ResourceInterceptor extends HandlerInterceptorAdapter {
         switch (method) {
             case GET:
                 response.setHeader(ETAG, token);
-                response.setHeader(LAST_MODIFIED, now().toString());
+                response.setHeader(LAST_MODIFIED, dateTimeFormatter.print(now()));
                 break;
             case PUT:
                 final Optional<String> previousToken = Optional.fromNullable(request.getHeader(IF_MATCH));

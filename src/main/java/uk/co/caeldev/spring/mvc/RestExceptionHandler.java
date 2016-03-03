@@ -21,7 +21,7 @@ public class RestExceptionHandler {
         return new ErrorInfo(errorURL, "Resource not found");
     }
 
-    private class ErrorInfo {
+    public class ErrorInfo {
         private final String errorURL;
         private final String message;
 
